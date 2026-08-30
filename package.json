@@ -1,0 +1,39 @@
+{
+  "name": "skill-store",
+  "version": "1.0.0",
+  "description": "Centralized agent skill manager with intelligent project symlinking and reference tracking",
+  "type": "module",
+  "bin": {
+    "skill-store": "./bin/cli.mjs",
+    "skstore": "./bin/cli.mjs"
+  },
+  "scripts": {
+    "dev": "node --no-warnings --loader ts-node/esm src/cli.ts",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "cli",
+    "skills",
+    "skill-store",
+    "agent-skills",
+    "ai-agents",
+    "claude-code",
+    "cursor",
+    "codex"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^1.2.0",
+    "picocolors": "^1.1.1",
+    "yaml": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.17"
+  }
+}
