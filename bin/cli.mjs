@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-import('../dist/cli.js').catch((err) => {
+import { main } from '../dist/cli.js';
+
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
