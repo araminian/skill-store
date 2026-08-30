@@ -68,7 +68,30 @@ skill-store fetch vercel-labs/agent-skills --skill react-doctor
 skill-store fetch vercel-labs/agent-skills --link
 ```
 
-### 2. Link skills to your project or globally
+### 2. Skill Stacks & Presets
+
+Instead of linking skills one-by-one, use curated built-in stacks or create your own:
+
+```bash
+# List available stacks (built-in, global, and project)
+skill-store stack list
+
+# Apply a stack (auto-fetches missing skills and links them)
+skill-store stack use frontend
+skill-store stack use security
+
+# Inspect stack skills and see which are active in current project
+skill-store stack show frontend
+
+# Save current project's linked skills into a reusable stack
+skill-store stack save my-stack
+skill-store stack save my-global-stack --global
+
+# Unlink all skills belonging to a stack
+skill-store stack unlink frontend
+```
+
+### 3. Link individual skills to your project or globally
 
 Link skills from `~/.skill-store` into your active project's agent directories:
 

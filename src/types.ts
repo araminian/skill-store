@@ -61,11 +61,33 @@ export interface ProjectSkillEntry {
   mode?: LinkMode;
 }
 
+export interface StackSkillItem {
+  name: string;
+  source?: string;
+  ref?: string;
+  subpath?: string;
+}
+
+export type StackOrigin = 'builtin' | 'global' | 'project';
+
+export interface StackDefinition {
+  name: string;
+  description: string;
+  skills: Array<string | StackSkillItem>;
+  origin?: StackOrigin;
+}
+
 export interface ProjectManifest {
   name?: string;
   version?: string;
   description?: string;
   skills: Record<string, ProjectSkillEntry>;
+  stacks?: Record<string, { description?: string; skills: Array<string | StackSkillItem> }>;
+}
+
+export interface GlobalStacksConfig {
+  version: number;
+  stacks: Record<string, { description: string; skills: Array<string | StackSkillItem> }>;
 }
 
 export interface AgentConfig {
