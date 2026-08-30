@@ -70,6 +70,8 @@ skill-store fetch vercel-labs/agent-skills --link
 
 ### 2. Hierarchical Skill Stacks & Presets (`skill-store stack`)
 
+> 📖 **Full Guide:** For detailed documentation on inheritance (`extends`), JSON schemas, authoring stacks, and community contributions, see the **[Skill Stacks Documentation](docs/STACKS.md)**.
+
 Instead of linking skills one-by-one, use curated community stacks or create your own:
 
 ```bash
