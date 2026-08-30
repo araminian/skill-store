@@ -61,30 +61,25 @@ If a project defines a stack with the same ID as a community stack (e.g. `fronte
 
 Every stack has a **canonical unique identifier** in the format `<category>/<name>`:
 
-| Canonical ID | Category | Short Name | Description |
-| :--- | :--- | :--- | :--- |
-| `frontend/react` | `frontend` | `react` | React performance and accessibility suite |
-| `frontend/nextjs` | `frontend` | `nextjs` | Next.js App Router, Tailwind CSS, and UI design |
-| `backend/fastapi` | `backend` | `fastapi` | Python FastAPI, Pydantic v2, and OpenAPI design |
-| `backend/node-api` | `backend` | `node-api` | Node.js REST & GraphQL API best practices |
-| `security/audit` | `security` | `audit` | SAST code security review and secret scanning |
-| `devops/ci-cd` | `devops` | `ci-cd` | Docker optimization and GitHub Actions workflows |
-| `ai/agents` | `ai` | `agents` | Prompt engineering and Model Context Protocol (MCP) |
-| `quality/review` | `quality` | `review` | PR code review and test-driven development |
+| Canonical ID | Category | Short Name | Origin | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `security/audit` | `security` | `audit` | Built-in | Security auditing, Git guardrails, and safe code execution |
 
 ### Dynamic / Open Categories
-Categories are **not fixed or hardcoded**. You or your team can introduce any category:
+Categories are **not fixed or hardcoded**. You or your team can introduce any category via community PRs or private registry taps:
+- `frontend/react`, `frontend/nextjs`, `frontend/vue`
+- `backend/fastapi`, `backend/node-api`, `backend/graphql`
 - `mobile/react-native`, `mobile/flutter`, `mobile/ios-swift`
-- `data/pyspark`, `data/dbt`, `data/analytics`
+- `ai/agents`, `ai/rag`, `data/analytics`
 - `internal/core-platform`, `internal/billing`
 
 ### Smart Short-Name Resolution
 You don't need to type the full canonical ID if the short name is unique:
 
 ```bash
-# Both of these resolve to frontend/nextjs:
-skill-store stack use frontend/nextjs
-skill-store stack use nextjs
+# Both of these resolve to security/audit:
+skill-store stack use security/audit
+skill-store stack use audit
 ```
 
 If multiple categories share a name (e.g., `frontend/graphql` and `backend/graphql`), the CLI displays an interactive prompt asking you to choose.
