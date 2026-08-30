@@ -11,7 +11,7 @@ import {
   removeGlobalStack,
   removeProjectStack,
 } from '../src/stacks/stack-manager.js';
-import { runStackList, runStackShow, runStackUse, runStackSave, runStackUnlink, runStackRemove } from '../src/commands/stack.js';
+import { runStackShow, runStackUse, runStackSave, runStackUnlink, runStackRemove } from '../src/commands/stack.js';
 import { copySkillToStore } from '../src/store.js';
 import { getLinksForSkill, registerSkill } from '../src/registry.js';
 import { isSymlink } from '../src/linker.js';
@@ -32,47 +32,52 @@ describe('Skill Stacks & Presets System', () => {
 
   it('loads built-in stacks out of the box', async () => {
     const all = await loadAllStacks(storeDir, projectDir);
-    expect(all.frontend).toBeDefined();
-    expect(all.backend).toBeDefined();
-    expect(all.security).toBeDefined();
-    expect(all.frontend?.origin).toBe('builtin');
-    expect(all.frontend?.skills.length).toBeGreaterThan(0);
+    expect(all['frontend/react']).toBeDefined();
+    expect(all['frontend/nextjs']).toBeDefined();
+    expect(all['backend/node-api']).toBeDefined();
+    expect(all['security/audit']).toBeDefined();
+    expect(all['frontend/react']?.category).toBe('frontend');
+    expect(all['frontend/react']?.skills.length).toBeGreaterThan(0);
   });
 
   it('saves and loads global and project stacks with proper precedence', async () => {
     // 1. Save global stack
     await saveGlobalStack(storeDir, {
+      id: 'custom/my-custom-stack',
       name: 'my-custom-stack',
+      category: 'custom',
       description: 'My global stack',
       skills: ['skill-a', 'skill-b'],
       origin: 'global',
     });
 
     let all = await loadAllStacks(storeDir, projectDir);
-    expect(all['my-custom-stack']).toBeDefined();
-    expect(all['my-custom-stack']?.origin).toBe('global');
+    expect(all['custom/my-custom-stack']).toBeDefined();
+    expect(all['custom/my-custom-stack']?.origin).toBe('global');
 
     // 2. Save project stack with same name -> overrides global
     await saveProjectStack(projectDir, {
+      id: 'custom/my-custom-stack',
       name: 'my-custom-stack',
+      category: 'custom',
       description: 'Project specific override',
       skills: ['skill-a', 'skill-c'],
       origin: 'project',
     });
 
     all = await loadAllStacks(storeDir, projectDir);
-    expect(all['my-custom-stack']?.origin).toBe('project');
-    expect(all['my-custom-stack']?.description).toBe('Project specific override');
+    expect(all['custom/my-custom-stack']?.origin).toBe('project');
+    expect(all['custom/my-custom-stack']?.description).toBe('Project specific override');
 
     // 3. Remove project stack -> reverts to global
-    await removeProjectStack(projectDir, 'my-custom-stack');
+    await removeProjectStack(projectDir, 'custom/my-custom-stack');
     all = await loadAllStacks(storeDir, projectDir);
-    expect(all['my-custom-stack']?.origin).toBe('global');
+    expect(all['custom/my-custom-stack']?.origin).toBe('global');
 
     // 4. Remove global stack
-    await removeGlobalStack(storeDir, 'my-custom-stack');
+    await removeGlobalStack(storeDir, 'custom/my-custom-stack');
     all = await loadAllStacks(storeDir, projectDir);
-    expect(all['my-custom-stack']).toBeUndefined();
+    expect(all['custom/my-custom-stack']).toBeUndefined();
   });
 
   it('applies a stack to a project and links all skills', async () => {
@@ -107,14 +112,16 @@ describe('Skill Stacks & Presets System', () => {
 
     // Save a custom stack
     await saveProjectStack(projectDir, {
+      id: 'test/test-bundle',
       name: 'test-bundle',
+      category: 'test',
       description: 'A test stack',
       skills: ['test-skill-1', 'test-skill-2'],
       origin: 'project',
     });
 
     // Apply stack
-    await runStackUse('test-bundle', {
+    await runStackUse('test/test-bundle', {
       storeDir,
       projectDir,
       agent: 'claude-code',
@@ -133,7 +140,7 @@ describe('Skill Stacks & Presets System', () => {
     expect(links1.length).toBe(1);
 
     // Unlink the stack
-    await runStackUnlink('test-bundle', {
+    await runStackUnlink('test/test-bundle', {
       storeDir,
       projectDir,
       agent: 'claude-code',
@@ -150,14 +157,14 @@ describe('Skill Stacks & Presets System', () => {
     await writeFile(join(sDir, 'SKILL.md'), '# Temp Skill');
     await copySkillToStore(storeDir, 'my-tool', sDir);
 
-    await runStackSave('dev-stack', {
+    await runStackSave('custom/dev-stack', {
       skills: 'my-tool,another-tool',
       description: 'Saved stack',
       storeDir,
       projectDir,
     });
 
-    const stack = await getStack('dev-stack', storeDir, projectDir);
+    const stack = await getStack('custom/dev-stack', storeDir, projectDir);
     expect(stack).toBeDefined();
     expect(stack?.skills).toEqual(['my-tool', 'another-tool']);
     expect(stack?.origin).toBe('project');

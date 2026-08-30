@@ -66,15 +66,41 @@ export interface StackSkillItem {
   source?: string;
   ref?: string;
   subpath?: string;
+  reason?: string;
+  optional?: boolean;
 }
 
-export type StackOrigin = 'builtin' | 'global' | 'project';
+export type StackOrigin = 'builtin' | 'community' | 'global' | 'project';
 
 export interface StackDefinition {
+  id: string; // Canonical hierarchical ID e.g. "frontend/nextjs"
   name: string;
+  category: string; // Dynamic open category e.g. "frontend", "backend", "ai", "custom"
   description: string;
+  tags?: string[];
+  extends?: string; // Canonical ID of parent stack to inherit from
   skills: Array<string | StackSkillItem>;
+  detect?: {
+    files?: string[];
+    dependencies?: string[];
+    languages?: string[];
+    [key: string]: unknown;
+  };
   origin?: StackOrigin;
+  sourceRegistry?: string;
+}
+
+export interface RegistrySourceConfig {
+  name: string;
+  url: string;
+  enabled: boolean;
+  lastSyncedAt?: string;
+}
+
+export interface GlobalConfig {
+  version: number;
+  registries: RegistrySourceConfig[];
+  defaultRegistry: string;
 }
 
 export interface ProjectManifest {
@@ -82,12 +108,13 @@ export interface ProjectManifest {
   version?: string;
   description?: string;
   skills: Record<string, ProjectSkillEntry>;
-  stacks?: Record<string, { description?: string; skills: Array<string | StackSkillItem> }>;
+  stacks?: Record<string, { description?: string; category?: string; extends?: string; skills: Array<string | StackSkillItem> }>;
+  registries?: RegistrySourceConfig[];
 }
 
 export interface GlobalStacksConfig {
   version: number;
-  stacks: Record<string, { description: string; skills: Array<string | StackSkillItem> }>;
+  stacks: Record<string, { description: string; category?: string; extends?: string; skills: Array<string | StackSkillItem> }>;
 }
 
 export interface AgentConfig {

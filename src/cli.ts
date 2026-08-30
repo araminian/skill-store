@@ -19,7 +19,13 @@ import {
   runStackSave,
   runStackUnlink,
   runStackRemove,
+  runStackSync,
 } from './commands/stack.js';
+import {
+  runRegistryList,
+  runRegistryAdd,
+  runRegistryRemove,
+} from './commands/registry.js';
 import { colors } from './ui/colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -61,12 +67,18 @@ function showHelp(): void {
   console.log(`  ${colors.yellow('remove')} ${colors.dim('<skill>')}      Safely remove skill from store (with project reference guard)\n`);
 
   console.log(colors.bold('SKILL STACKS & PRESETS:'));
-  console.log(`  ${colors.yellow('stack list')}          List available skill stacks (built-in, global, and project)`);
-  console.log(`  ${colors.yellow('stack use')} ${colors.dim('<name>')}     Auto-fetch missing skills and link all skills in stack`);
-  console.log(`  ${colors.yellow('stack show')} ${colors.dim('<name>')}    Inspect skills in a stack and see active link status`);
-  console.log(`  ${colors.yellow('stack save')} ${colors.dim('<name>')}    Save current linked skills (or --skills a,b) into a reusable stack`);
-  console.log(`  ${colors.yellow('stack unlink')} ${colors.dim('<name>')}  Unlink all skills belonging to a stack`);
-  console.log(`  ${colors.yellow('stack remove')} ${colors.dim('<name>')}  Delete a custom stack definition\n`);
+  console.log(`  ${colors.yellow('stack list')} ${colors.dim('[category]')} List available stacks grouped by category (or filter by category)`);
+  console.log(`  ${colors.yellow('stack use')} ${colors.dim('<id-or-name>')}  Auto-fetch missing skills and link all skills in stack`);
+  console.log(`  ${colors.yellow('stack show')} ${colors.dim('<id-or-name>')} Inspect stack inheritance, skills, and active link status`);
+  console.log(`  ${colors.yellow('stack save')} ${colors.dim('<id>')}         Save linked skills (or --skills a,b) into a reusable stack`);
+  console.log(`  ${colors.yellow('stack sync')}           Refresh community stack catalogs from all registry sources`);
+  console.log(`  ${colors.yellow('stack unlink')} ${colors.dim('<id>')}       Unlink all skills belonging to a stack`);
+  console.log(`  ${colors.yellow('stack remove')} ${colors.dim('<id>')}       Delete a custom stack definition\n`);
+
+  console.log(colors.bold('REGISTRY SOURCES (Taps):'));
+  console.log(`  ${colors.yellow('registry list')}        List configured remote/local registry sources`);
+  console.log(`  ${colors.yellow('registry add')} ${colors.dim('<n> <u>')}  Add custom community/private registry source`);
+  console.log(`  ${colors.yellow('registry remove')} ${colors.dim('<n>')} Remove a registry source\n`);
 
   console.log(colors.bold('PROJECT & GLOBAL COMMANDS (Link/Unlink):'));
   console.log(`  ${colors.yellow('link')} ${colors.dim('[skill]')}        Link skill from store into current project`);
@@ -86,7 +98,9 @@ function showHelp(): void {
   console.log(`  ${colors.dim('--all')}                 Select all skills without interactive prompts`);
   console.log(`  ${colors.dim('--skill <name>')}        Select specific skill from multi-skill repository`);
   console.log(`  ${colors.dim('--skills <a,b,c>')}      Comma-separated skills when saving a stack`);
-  console.log(`  ${colors.dim('--description <text>')}  Description for custom stack`);
+  console.log(`  ${colors.dim('--category <cat>')}      Category for stack (e.g. frontend, backend, devops)`);
+  console.log(`  ${colors.dim('--extends <parent>')}    Parent stack ID to inherit skills from`);
+  console.log(`  ${colors.dim('--sync')}                Sync community catalogs before executing stack command`);
   console.log(`  ${colors.dim('-c, --clean-links')}     Automatically unlink referencing projects on remove`);
   console.log(`  ${colors.dim('-f, --force')}           Force operation ignoring warnings/errors`);
   console.log(`  ${colors.dim('--store-dir <path>')}    Override central store directory path`);
@@ -94,11 +108,11 @@ function showHelp(): void {
   console.log(`  ${colors.dim('-h, --help')}            Show this help text\n`);
 
   console.log(colors.bold('EXAMPLES:'));
-  console.log(`  ${colors.dim('$')} skill-store stack use frontend`);
-  console.log(`  ${colors.dim('$')} skill-store stack save my-stack --skills react-doctor,api-design`);
-  console.log(`  ${colors.dim('$')} skill-store fetch vercel-labs/agent-skills`);
-  console.log(`  ${colors.dim('$')} skill-store link react-doctor`);
-  console.log(`  ${colors.dim('$')} skill-store remove react-doctor --clean-links\n`);
+  console.log(`  ${colors.dim('$')} skill-store stack list`);
+  console.log(`  ${colors.dim('$')} skill-store stack list frontend`);
+  console.log(`  ${colors.dim('$')} skill-store stack use frontend/nextjs`);
+  console.log(`  ${colors.dim('$')} skill-store stack save custom/my-stack --skills react-doctor,api-design`);
+  console.log(`  ${colors.dim('$')} skill-store registry add team https://raw.githubusercontent.com/org/stacks/main/stacks.json\n`);
 }
 
 interface ParsedArgs {
@@ -112,7 +126,10 @@ interface ParsedArgs {
     all?: boolean;
     skill?: string;
     skills?: string;
+    category?: string;
+    extends?: string;
     description?: string;
+    sync?: boolean;
     cleanLinks?: boolean;
     force?: boolean;
     copy?: boolean;
@@ -143,6 +160,8 @@ function parseCliArgs(rawArgs: string[]): ParsedArgs {
       flags.all = true;
     } else if (arg === '--link' || arg === '-l') {
       flags.link = true;
+    } else if (arg === '--sync') {
+      flags.sync = true;
     } else if (arg === '--clean-links' || arg === '-c') {
       flags.cleanLinks = true;
     } else if (arg === '--force' || arg === '-f') {
@@ -165,6 +184,14 @@ function parseCliArgs(rawArgs: string[]): ParsedArgs {
       flags.skills = rawArgs[++i];
     } else if (arg.startsWith('--skills=')) {
       flags.skills = arg.split('=')[1];
+    } else if (arg === '--category') {
+      flags.category = rawArgs[++i];
+    } else if (arg.startsWith('--category=')) {
+      flags.category = arg.split('=')[1];
+    } else if (arg === '--extends') {
+      flags.extends = rawArgs[++i];
+    } else if (arg.startsWith('--extends=')) {
+      flags.extends = arg.split('=')[1];
     } else if (arg === '--description') {
       flags.description = rawArgs[++i];
     } else if (arg.startsWith('--description=')) {
@@ -285,30 +312,37 @@ export async function main(): Promise<void> {
       case 'stack':
       case 'stacks': {
         const subCommand = (args[0] || 'list').toLowerCase();
-        const stackName = args[1];
+        const stackArg = args[1];
 
         switch (subCommand) {
           case 'list':
           case 'ls':
-            await runStackList({
+            await runStackList(stackArg, {
               global: flags.global,
+              category: flags.category,
+              sync: flags.sync,
               storeDir: flags.storeDir,
             });
             break;
 
+          case 'sync':
+            await runStackSync({ storeDir: flags.storeDir });
+            break;
+
           case 'use':
           case 'apply':
-            await runStackUse(stackName, {
+            await runStackUse(stackArg, {
               global: flags.global,
               agent: flags.agent,
               copy: flags.copy,
+              sync: flags.sync,
               storeDir: flags.storeDir,
             });
             break;
 
           case 'show':
           case 'info':
-            await runStackShow(stackName, {
+            await runStackShow(stackArg, {
               global: flags.global,
               storeDir: flags.storeDir,
             });
@@ -316,12 +350,14 @@ export async function main(): Promise<void> {
 
           case 'save':
           case 'create':
-            if (!stackName) {
-              throw new Error('Please specify a name for the stack (e.g. skill-store stack save <name>)');
+            if (!stackArg) {
+              throw new Error('Please specify an ID/name for the stack (e.g. skill-store stack save <id>)');
             }
-            await runStackSave(stackName, {
+            await runStackSave(stackArg, {
               global: flags.global,
               skills: flags.skills,
+              category: flags.category,
+              extends: flags.extends,
               description: flags.description,
               storeDir: flags.storeDir,
             });
@@ -329,10 +365,10 @@ export async function main(): Promise<void> {
 
           case 'unlink':
           case 'eject':
-            if (!stackName) {
-              throw new Error('Please specify a stack to unlink (e.g. skill-store stack unlink <name>)');
+            if (!stackArg) {
+              throw new Error('Please specify a stack to unlink (e.g. skill-store stack unlink <id>)');
             }
-            await runStackUnlink(stackName, {
+            await runStackUnlink(stackArg, {
               global: flags.global,
               agent: flags.agent,
               storeDir: flags.storeDir,
@@ -342,24 +378,69 @@ export async function main(): Promise<void> {
           case 'remove':
           case 'rm':
           case 'delete':
-            if (!stackName) {
-              throw new Error('Please specify a custom stack to remove (e.g. skill-store stack remove <name>)');
+            if (!stackArg) {
+              throw new Error('Please specify a custom stack to remove (e.g. skill-store stack remove <id>)');
             }
-            await runStackRemove(stackName, {
+            await runStackRemove(stackArg, {
               global: flags.global,
               storeDir: flags.storeDir,
             });
             break;
 
           default:
-            // If user typed "skill-store stack <stack-name>", treat as "use"
-            await runStackUse(subCommand, {
-              global: flags.global,
-              agent: flags.agent,
-              copy: flags.copy,
-              storeDir: flags.storeDir,
-            });
+            // Check if subCommand is actually a category for listing (e.g. "skill-store stack frontend")
+            // or a stack name to apply
+            if (['frontend', 'backend', 'security', 'devops', 'ai', 'quality'].includes(subCommand)) {
+              await runStackList(subCommand, {
+                global: flags.global,
+                sync: flags.sync,
+                storeDir: flags.storeDir,
+              });
+            } else {
+              await runStackUse(subCommand, {
+                global: flags.global,
+                agent: flags.agent,
+                copy: flags.copy,
+                sync: flags.sync,
+                storeDir: flags.storeDir,
+              });
+            }
             break;
+        }
+        break;
+      }
+
+      case 'registry':
+      case 'registries': {
+        const subCommand = (args[0] || 'list').toLowerCase();
+        const regName = args[1];
+        const regUrl = args[2];
+
+        switch (subCommand) {
+          case 'list':
+          case 'ls':
+            await runRegistryList({ storeDir: flags.storeDir });
+            break;
+
+          case 'add':
+            if (!regName || !regUrl) {
+              throw new Error('Usage: skill-store registry add <name> <url>');
+            }
+            await runRegistryAdd(regName, regUrl, { storeDir: flags.storeDir });
+            break;
+
+          case 'remove':
+          case 'rm':
+            if (!regName) {
+              throw new Error('Usage: skill-store registry remove <name>');
+            }
+            await runRegistryRemove(regName, { storeDir: flags.storeDir });
+            break;
+
+          default:
+            console.log(colors.error(`Unknown registry command: "${subCommand}"`));
+            console.log(colors.dim('Available: skill-store registry [list | add | remove]'));
+            process.exit(1);
         }
         break;
       }

@@ -68,30 +68,52 @@ skill-store fetch vercel-labs/agent-skills --skill react-doctor
 skill-store fetch vercel-labs/agent-skills --link
 ```
 
-### 2. Skill Stacks & Presets
+### 2. Hierarchical Skill Stacks & Presets (`skill-store stack`)
 
-Instead of linking skills one-by-one, use curated built-in stacks or create your own:
+Instead of linking skills one-by-one, use curated community stacks or create your own:
 
 ```bash
-# List available stacks (built-in, global, and project)
+# List all stacks grouped dynamically by category
 skill-store stack list
 
-# Apply a stack (auto-fetches missing skills and links them)
-skill-store stack use frontend
-skill-store stack use security
+# Filter stacks by category (e.g. frontend, backend, devops, security, ai, quality)
+skill-store stack list frontend
 
-# Inspect stack skills and see which are active in current project
-skill-store stack show frontend
+# Apply a stack (auto-fetches missing skills and creates project symlinks)
+skill-store stack use frontend/nextjs
+# Or use the convenient short name:
+skill-store stack use nextjs
 
-# Save current project's linked skills into a reusable stack
-skill-store stack save my-stack
-skill-store stack save my-global-stack --global
+# Inspect stack inheritance (e.g. nextjs extends react), tags, and active status
+skill-store stack show nextjs
+
+# Save current linked skills into a reusable stack (project or global)
+skill-store stack save my-org/fullstack --skills react-doctor,api-design
+skill-store stack save custom/my-global-stack --global
+
+# Sync catalogs from community & custom registry taps
+skill-store stack sync
 
 # Unlink all skills belonging to a stack
-skill-store stack unlink frontend
+skill-store stack unlink nextjs
 ```
 
-### 3. Link individual skills to your project or globally
+### 3. Registry Taps & Private Catalogs (`skill-store registry`)
+
+Configure custom or private company stack registries alongside the official community catalog:
+
+```bash
+# List configured registry sources
+skill-store registry list
+
+# Add a custom or internal registry tap (GitHub raw URL or local JSON file)
+skill-store registry add team-infra https://raw.githubusercontent.com/my-org/stacks/main/stacks.json
+
+# Remove a registry tap
+skill-store registry remove team-infra
+```
+
+### 4. Link individual skills to your project or globally
 
 Link skills from `~/.skill-store` into your active project's agent directories:
 

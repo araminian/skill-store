@@ -10,6 +10,7 @@ export const colors = {
   blue: pc.blue,
   magenta: pc.magenta,
   gray: pc.gray,
+  underline: pc.underline,
 
   success: (text: string) => pc.green(`✔ ${text}`),
   info: (text: string) => pc.blue(`ℹ ${text}`),
