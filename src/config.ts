@@ -6,7 +6,7 @@ import { loadProjectManifest, findProjectRoot } from './project-manifest.js';
 
 export const CONFIG_FILE = 'config.json';
 export const DEFAULT_OFFICIAL_REGISTRY_URL =
-  'https://raw.githubusercontent.com/araminian/skill-store/main/registry/stacks.json';
+  'https://cdn.jsdelivr.net/gh/araminian/skill-store@main/registry/stacks.json';
 
 export function getDefaultConfig(): GlobalConfig {
   return {
