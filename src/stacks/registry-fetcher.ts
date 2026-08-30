@@ -31,11 +31,14 @@ export async function fetchRegistryContent(urlOrPath: string): Promise<StackDefi
     const content = await readFile(filePath, 'utf-8');
     parsedRaw = JSON.parse(content);
   } else {
-    // Remote HTTP(S) URL
-    const res = await fetch(trimmed, {
+    // Remote HTTP(S) URL with cache busting
+    const fetchUrl = trimmed.includes('?') ? `${trimmed}&_t=${Date.now()}` : `${trimmed}?_t=${Date.now()}`;
+    const res = await fetch(fetchUrl, {
       headers: {
         'User-Agent': 'skill-store-cli',
         Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
       },
       signal: AbortSignal.timeout(10000),
     });
