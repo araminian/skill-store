@@ -37,9 +37,7 @@ Thumbs.db
 .skill-store/
 .skill-store-cache/
 
-# Agent local directories
-.claude/
-.agents/
-.agent/
-.cursor/
-.codex/
+# Local notes & TODOs
+TODO.md
+TODO*.md
+*.local.md
