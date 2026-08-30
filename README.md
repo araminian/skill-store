@@ -20,13 +20,15 @@ Conversely, downloading skills manually into every individual project creates du
 
 ## The Solution: `skill-store`
 
-`skill-store` provides a centralized, local skill store (`~/.skill-store/`) with fast, declarative linking:
+`skill-store` provides a centralized package-store architecture with hierarchical presets and declarative project linking:
 
-1. **Centralized Store (`~/.skill-store`)**: Fetch and maintain all your favorite skills in one central location.
-2. **Selective Project Linking**: Pick only the specific skills each project needs via fast, lightweight symlinks (`.claude/skills/`, `.agents/skills/`, etc.).
-3. **One-Command Updates**: Update upstream repositories once in the store, and all linked projects instantly reflect the changes.
-4. **Reference Safety Guard**: Prevent accidental breakage when deleting skills from the store by tracking bidirectional project links.
-5. **Team Reproducibility**: Commit a lightweight `skill-store.json` manifest so teammates can reproduce the exact skill setup with `skill-store install`.
+1. **Hierarchical Skill Stacks & Presets (`skill-store stack`)**: Apply curated suites of skills (e.g. `frontend/nextjs`, `backend/fastapi`, `security/audit`, `devops/ci-cd`) with a single command. Supports inheritance (`extends`) and auto-fetching of missing skills.
+2. **Community Registry & Private Taps (`skill-store registry`)**: Access a centralized open community catalog or configure private company stack registries.
+3. **Centralized Store (`~/.skill-store`)**: Fetch and maintain all your favorite skills in one central repository. Download once, link anywhere.
+4. **Selective Project Linking**: Pick only the specific skills each project needs via fast, lightweight symlinks (`.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, etc.) to keep AI context clean.
+5. **One-Command Updates**: Update upstream repositories once in the store, and all linked projects instantly reflect the changes.
+6. **Reference Safety Guard**: Prevent accidental breakage when deleting skills from the store by tracking bidirectional project references.
+7. **Team Reproducibility**: Commit a lightweight `skill-store.json` manifest so teammates or CI pipelines can reproduce the exact skill setup with `skill-store install`.
 
 ---
 
