@@ -1,6 +1,6 @@
 {
   "name": "@araminian/skill-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Centralized agent skill manager with intelligent project symlinking and reference tracking",
   "type": "module",
   "bin": {
