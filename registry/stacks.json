@@ -2,8 +2,192 @@
   "$schema": "./schema.json",
   "version": 1,
   "description": "Official community stacks catalog for skill-store",
-  "updatedAt": "2026-08-30T15:00:00Z",
+  "updatedAt": "2026-08-30T17:00:00Z",
   "stacks": [
+    {
+      "id": "frontend/react",
+      "name": "React Best Practices",
+      "category": "frontend",
+      "description": "React performance optimization and component composition patterns",
+      "tags": ["react", "ui", "composition"],
+      "skills": [
+        {
+          "name": "vercel-react-best-practices",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/vercel-react-best-practices",
+          "reason": "React component optimization and performance patterns"
+        },
+        {
+          "name": "vercel-composition-patterns",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/vercel-composition-patterns",
+          "reason": "Clean component architecture and state separation"
+        }
+      ]
+    },
+    {
+      "id": "frontend/web-design",
+      "name": "Web Design & UI Polish",
+      "category": "frontend",
+      "description": "Web design guidelines, page transitions, and UX copy standards",
+      "tags": ["design", "ui", "ux", "animations"],
+      "extends": "frontend/react",
+      "skills": [
+        {
+          "name": "web-design-guidelines",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/web-design-guidelines",
+          "reason": "Visual hierarchy, typography, and responsive spacing"
+        },
+        {
+          "name": "vercel-react-view-transitions",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/vercel-react-view-transitions",
+          "reason": "Seamless animated page and element transitions"
+        },
+        {
+          "name": "writing-guidelines",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/writing-guidelines",
+          "reason": "Clear, concise user-facing copy and error messaging"
+        }
+      ]
+    },
+    {
+      "id": "quality/review",
+      "name": "Code Review & TDD",
+      "category": "quality",
+      "description": "Automated code review, bug diagnosis, and test-driven development",
+      "tags": ["quality", "code-review", "tdd", "testing"],
+      "skills": [
+        {
+          "name": "code-review",
+          "source": "mattpocock/skills",
+          "subpath": "skills/code-review",
+          "reason": "Comprehensive code reviews for maintainability and bugs"
+        },
+        {
+          "name": "diagnosing-bugs",
+          "source": "mattpocock/skills",
+          "subpath": "skills/diagnosing-bugs",
+          "reason": "Root cause analysis and reproducible bug investigation"
+        },
+        {
+          "name": "tdd",
+          "source": "mattpocock/skills",
+          "subpath": "skills/tdd",
+          "reason": "Test-driven development and test coverage"
+        }
+      ]
+    },
+    {
+      "id": "workflow/planning",
+      "name": "Spec & Feature Planning",
+      "category": "workflow",
+      "description": "Design grilling, specification authoring, and spec implementation",
+      "tags": ["workflow", "planning", "spec", "design"],
+      "skills": [
+        {
+          "name": "grill-me",
+          "source": "mattpocock/skills",
+          "subpath": "skills/grill-me",
+          "reason": "Stress-test plans and architectural decisions"
+        },
+        {
+          "name": "to-spec",
+          "source": "mattpocock/skills",
+          "subpath": "skills/to-spec",
+          "reason": "Turn product ideas into structured technical specs"
+        },
+        {
+          "name": "implement-spec",
+          "source": "mattpocock/skills",
+          "subpath": "skills/implement-spec",
+          "reason": "Deterministic step-by-step spec implementation"
+        }
+      ]
+    },
+    {
+      "id": "workflow/architecture",
+      "name": "Codebase Architecture",
+      "category": "workflow",
+      "description": "Domain modeling, architecture improvements, and system design",
+      "tags": ["architecture", "domain-modeling", "design"],
+      "skills": [
+        {
+          "name": "improve-codebase-architecture",
+          "source": "mattpocock/skills",
+          "subpath": "skills/improve-codebase-architecture",
+          "reason": "Refactor module boundaries and dependency flow"
+        },
+        {
+          "name": "codebase-design",
+          "source": "mattpocock/skills",
+          "subpath": "skills/codebase-design",
+          "reason": "High-level software architecture and patterns"
+        },
+        {
+          "name": "domain-modeling",
+          "source": "mattpocock/skills",
+          "subpath": "skills/domain-modeling",
+          "reason": "DDD entities, value objects, and business workflows"
+        }
+      ]
+    },
+    {
+      "id": "devops/deploy",
+      "name": "Deployment & Git Guardrails",
+      "category": "devops",
+      "description": "Deployment automation, pre-commit checks, and Git guardrails",
+      "tags": ["devops", "deploy", "git", "pre-commit"],
+      "skills": [
+        {
+          "name": "deploy-to-vercel",
+          "source": "vercel-labs/agent-skills",
+          "subpath": "skills/deploy-to-vercel",
+          "reason": "Automated deployment and preview configuration"
+        },
+        {
+          "name": "setup-pre-commit",
+          "source": "mattpocock/skills",
+          "subpath": "skills/setup-pre-commit",
+          "reason": "Lint and typecheck before committing"
+        },
+        {
+          "name": "git-guardrails-claude-code",
+          "source": "mattpocock/skills",
+          "subpath": "skills/git-guardrails-claude-code",
+          "reason": "Guardrails preventing destructive git operations"
+        }
+      ]
+    },
+    {
+      "id": "ai/agents",
+      "name": "Agent Workflows & Handoffs",
+      "category": "ai",
+      "description": "Prompt authoring for agents, session handoffs, and multi-agent coordination",
+      "tags": ["ai", "agents", "prompts", "handoff"],
+      "skills": [
+        {
+          "name": "writing-for-agents",
+          "source": "mattpocock/skills",
+          "subpath": "skills/writing-for-agents",
+          "reason": "Author clear instructions and constraints for AI agents"
+        },
+        {
+          "name": "handoff",
+          "source": "mattpocock/skills",
+          "subpath": "skills/handoff",
+          "reason": "Structured context handoff between agent sessions"
+        },
+        {
+          "name": "claude-handoff",
+          "source": "mattpocock/skills",
+          "subpath": "skills/claude-handoff",
+          "reason": "Specialized Claude session transition and summaries"
+        }
+      ]
+    },
     {
       "id": "security/audit",
       "name": "Security & Defense Audit",
