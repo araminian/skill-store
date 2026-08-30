@@ -37,7 +37,6 @@ Thumbs.db
 .skill-store/
 .skill-store-cache/
 
-# Local notes & TODOs
+# Local notes
 TODO.md
-TODO*.md
 *.local.md
