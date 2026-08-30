@@ -36,6 +36,7 @@
   ],
   "author": "Armin Aminian",
   "license": "MIT",
+  "packageManager": "pnpm@11.21.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/araminian/skill-store.git"
