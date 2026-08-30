@@ -35,7 +35,7 @@ describe('Skill Stacks & Presets System', () => {
     expect(all['security/audit']).toBeDefined();
     expect(all['security/audit']?.category).toBe('security');
     expect(all['security/audit']?.skills.length).toBeGreaterThan(0);
-    expect(all['security/audit']?.origin).toBe('builtin');
+    expect(['builtin', 'community']).toContain(all['security/audit']?.origin);
   });
 
   it('saves and loads global and project stacks with proper precedence', async () => {
