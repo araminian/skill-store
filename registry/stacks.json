@@ -6,170 +6,185 @@
   "stacks": [
     {
       "id": "frontend/react",
-      "name": "React Baseline",
+      "name": "React Best Practices",
       "category": "frontend",
-      "description": "Core React suite: performance audit, anti-pattern detection, and accessibility",
-      "tags": ["react", "ui", "accessibility"],
+      "description": "React performance optimization and component composition patterns",
+      "tags": ["react", "ui", "composition"],
       "skills": [
         {
-          "name": "react-doctor",
+          "name": "vercel-react-best-practices",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/react-doctor",
-          "reason": "Audits React components for performance and re-render issues"
+          "subpath": "skills/vercel-react-best-practices",
+          "reason": "React component optimization and performance patterns"
         },
         {
-          "name": "accessibility",
+          "name": "vercel-composition-patterns",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/accessibility",
-          "reason": "WCAG accessibility guidelines and keyboard navigation"
+          "subpath": "skills/vercel-composition-patterns",
+          "reason": "Clean component architecture and state separation"
         }
       ]
     },
     {
-      "id": "frontend/nextjs",
-      "name": "Next.js Pro Suite",
+      "id": "frontend/web-design",
+      "name": "Web Design & UI Polish",
       "category": "frontend",
-      "description": "Complete Next.js App Router, React 19, Tailwind CSS, and UI design suite",
-      "tags": ["nextjs", "react", "tailwind", "ui"],
+      "description": "Web design guidelines, page transitions, and UX copy standards",
+      "tags": ["design", "ui", "ux", "animations"],
       "extends": "frontend/react",
       "skills": [
         {
-          "name": "frontend-design",
+          "name": "web-design-guidelines",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/frontend-design",
-          "reason": "Modern UI design principles, layout hierarchy, and micro-interactions"
+          "subpath": "skills/web-design-guidelines",
+          "reason": "Visual hierarchy, typography, and responsive spacing"
         },
         {
-          "name": "tailwind-wizard",
+          "name": "vercel-react-view-transitions",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/tailwind",
-          "reason": "Tailwind CSS v4 optimization and responsive utilities"
-        }
-      ]
-    },
-    {
-      "id": "backend/node-api",
-      "name": "Node.js REST & GraphQL",
-      "category": "backend",
-      "description": "Backend API development with robust schema design and error handling",
-      "tags": ["nodejs", "api", "rest", "graphql"],
-      "skills": [
-        {
-          "name": "api-design",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/api-design",
-          "reason": "RESTful & GraphQL API best practices and contract design"
+          "subpath": "skills/vercel-react-view-transitions",
+          "reason": "Seamless animated page and element transitions"
         },
         {
-          "name": "sql-optimizer",
+          "name": "writing-guidelines",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/sql-optimizer",
-          "reason": "Query performance optimization and indexing advice"
-        }
-      ]
-    },
-    {
-      "id": "backend/fastapi",
-      "name": "Python FastAPI & Pydantic",
-      "category": "backend",
-      "description": "Modern async Python backend, Pydantic v2 validations, and OpenAPI schema",
-      "tags": ["python", "fastapi", "pydantic", "backend"],
-      "skills": [
-        {
-          "name": "api-design",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/api-design",
-          "reason": "OpenAPI and REST design standards"
-        },
-        {
-          "name": "sql-optimizer",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/sql-optimizer",
-          "reason": "SQLAlchemy and database query optimization"
-        }
-      ]
-    },
-    {
-      "id": "security/audit",
-      "name": "Security & Defense Audit",
-      "category": "security",
-      "description": "SAST code security auditing, OWASP vulnerability detection, and threat modeling",
-      "tags": ["security", "audit", "sast", "owasp"],
-      "skills": [
-        {
-          "name": "security-review",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/security-review",
-          "reason": "Automated security code review for vulnerabilities"
-        },
-        {
-          "name": "secret-scanner",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/secret-scanner",
-          "reason": "Detects leaked API keys, tokens, and credentials"
-        }
-      ]
-    },
-    {
-      "id": "devops/ci-cd",
-      "name": "DevOps & GitHub Actions",
-      "category": "devops",
-      "description": "Docker containerization, GitHub Actions workflows, and deployment automation",
-      "tags": ["devops", "docker", "ci-cd", "github-actions"],
-      "skills": [
-        {
-          "name": "dockerfile-expert",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/dockerfile-expert",
-          "reason": "Multi-stage Dockerfile optimization and minimal image footprint"
-        },
-        {
-          "name": "github-actions",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/github-actions",
-          "reason": "CI/CD workflow authoring, caching, and security hardening"
-        }
-      ]
-    },
-    {
-      "id": "ai/agents",
-      "name": "AI Agent & Prompt Engineering",
-      "category": "ai",
-      "description": "Custom agent development, prompt distillation, MCP tools, and evaluator suites",
-      "tags": ["ai", "prompts", "mcp", "agents"],
-      "skills": [
-        {
-          "name": "prompt-engineer",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/prompt-engineer",
-          "reason": "Distills and optimizes system prompts for LLM agents"
-        },
-        {
-          "name": "mcp-builder",
-          "source": "vercel-labs/agent-skills",
-          "subpath": "skills/mcp-builder",
-          "reason": "Model Context Protocol tool implementation and schema validation"
+          "subpath": "skills/writing-guidelines",
+          "reason": "Clear, concise user-facing copy and error messaging"
         }
       ]
     },
     {
       "id": "quality/review",
-      "name": "Code Quality & Refactoring",
+      "name": "Code Review & TDD",
       "category": "quality",
-      "description": "Automated PR code review, refactoring patterns, and test coverage expansion",
-      "tags": ["quality", "code-review", "refactor", "tests"],
+      "description": "Automated code review, bug diagnosis, and test-driven development",
+      "tags": ["quality", "code-review", "tdd", "testing"],
       "skills": [
         {
           "name": "code-review",
-          "source": "vercel-labs/agent-skills",
+          "source": "mattpocock/skills",
           "subpath": "skills/code-review",
           "reason": "Comprehensive code reviews for maintainability and bugs"
         },
         {
-          "name": "testing-guru",
+          "name": "diagnosing-bugs",
+          "source": "mattpocock/skills",
+          "subpath": "skills/diagnosing-bugs",
+          "reason": "Root cause analysis and reproducible bug investigation"
+        },
+        {
+          "name": "tdd",
+          "source": "mattpocock/skills",
+          "subpath": "skills/tdd",
+          "reason": "Test-driven development and test coverage"
+        }
+      ]
+    },
+    {
+      "id": "workflow/planning",
+      "name": "Spec & Feature Planning",
+      "category": "workflow",
+      "description": "Design grilling, specification authoring, and spec implementation",
+      "tags": ["workflow", "planning", "spec", "design"],
+      "skills": [
+        {
+          "name": "grill-me",
+          "source": "mattpocock/skills",
+          "subpath": "skills/grill-me",
+          "reason": "Stress-test plans and architectural decisions"
+        },
+        {
+          "name": "to-spec",
+          "source": "mattpocock/skills",
+          "subpath": "skills/to-spec",
+          "reason": "Turn product ideas into structured technical specs"
+        },
+        {
+          "name": "implement-spec",
+          "source": "mattpocock/skills",
+          "subpath": "skills/implement-spec",
+          "reason": "Deterministic step-by-step spec implementation"
+        }
+      ]
+    },
+    {
+      "id": "workflow/architecture",
+      "name": "Codebase Architecture",
+      "category": "workflow",
+      "description": "Domain modeling, architecture improvements, and system design",
+      "tags": ["architecture", "domain-modeling", "design"],
+      "skills": [
+        {
+          "name": "improve-codebase-architecture",
+          "source": "mattpocock/skills",
+          "subpath": "skills/improve-codebase-architecture",
+          "reason": "Refactor module boundaries and dependency flow"
+        },
+        {
+          "name": "codebase-design",
+          "source": "mattpocock/skills",
+          "subpath": "skills/codebase-design",
+          "reason": "High-level software architecture and patterns"
+        },
+        {
+          "name": "domain-modeling",
+          "source": "mattpocock/skills",
+          "subpath": "skills/domain-modeling",
+          "reason": "DDD entities, value objects, and business workflows"
+        }
+      ]
+    },
+    {
+      "id": "devops/deploy",
+      "name": "Deployment & Git Guardrails",
+      "category": "devops",
+      "description": "Deployment automation, pre-commit checks, and Git guardrails",
+      "tags": ["devops", "deploy", "git", "pre-commit"],
+      "skills": [
+        {
+          "name": "deploy-to-vercel",
           "source": "vercel-labs/agent-skills",
-          "subpath": "skills/testing-guru",
-          "reason": "Test-driven development, edge case generation, and unit tests"
+          "subpath": "skills/deploy-to-vercel",
+          "reason": "Automated deployment and preview configuration"
+        },
+        {
+          "name": "setup-pre-commit",
+          "source": "mattpocock/skills",
+          "subpath": "skills/setup-pre-commit",
+          "reason": "Lint and typecheck before committing"
+        },
+        {
+          "name": "git-guardrails-claude-code",
+          "source": "mattpocock/skills",
+          "subpath": "skills/git-guardrails-claude-code",
+          "reason": "Guardrails preventing destructive git operations"
+        }
+      ]
+    },
+    {
+      "id": "ai/agents",
+      "name": "Agent Workflows & Handoffs",
+      "category": "ai",
+      "description": "Prompt authoring for agents, session handoffs, and multi-agent coordination",
+      "tags": ["ai", "agents", "prompts", "handoff"],
+      "skills": [
+        {
+          "name": "writing-for-agents",
+          "source": "mattpocock/skills",
+          "subpath": "skills/writing-for-agents",
+          "reason": "Author clear instructions and constraints for AI agents"
+        },
+        {
+          "name": "handoff",
+          "source": "mattpocock/skills",
+          "subpath": "skills/handoff",
+          "reason": "Structured context handoff between agent sessions"
+        },
+        {
+          "name": "claude-handoff",
+          "source": "mattpocock/skills",
+          "subpath": "skills/claude-handoff",
+          "reason": "Specialized Claude session transition and summaries"
         }
       ]
     }

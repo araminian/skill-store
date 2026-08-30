@@ -249,6 +249,9 @@ export async function runStackUse(
     )
   );
 
+  let linkedCount = 0;
+  const failedSkills: string[] = [];
+
   for (const item of stack.skills) {
     const norm = normalizeSkillItem(item);
     const inStore = await isSkillInStore(storeDir, norm.name);
@@ -279,12 +282,30 @@ export async function runStackUse(
         storeDir,
         projectDir,
       });
+      linkedCount++;
     } catch (err: any) {
+      failedSkills.push(norm.name);
       console.log(colors.error(`  Failed to link "${norm.name}": ${err?.message || err}`));
     }
   }
 
-  console.log(colors.success(`\n✔ Stack "${stack.name}" (${stack.id}) applied successfully!`));
+  if (failedSkills.length === stack.skills.length) {
+    throw new Error(
+      `Failed to apply stack "${stack.name}": none of the ${stack.skills.length} skills could be linked.`
+    );
+  } else if (failedSkills.length > 0) {
+    console.log(
+      colors.warning(
+        `\n⚠ Stack "${stack.name}" partially applied: ${linkedCount} linked, ${failedSkills.length} failed (${failedSkills.join(', ')}).`
+      )
+    );
+  } else {
+    console.log(
+      colors.success(
+        `\n✔ Stack "${stack.name}" (${stack.id}) applied successfully (${linkedCount} skill(s) linked)!`
+      )
+    );
+  }
 }
 
 export async function runStackSave(
