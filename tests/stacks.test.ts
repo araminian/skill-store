@@ -33,9 +33,10 @@ describe('Skill Stacks & Presets System', () => {
   it('loads built-in stacks out of the box', async () => {
     const all = await loadAllStacks(storeDir, projectDir);
     expect(all['frontend/react']).toBeDefined();
-    expect(all['frontend/nextjs']).toBeDefined();
-    expect(all['backend/node-api']).toBeDefined();
-    expect(all['security/audit']).toBeDefined();
+    expect(all['frontend/web-design']).toBeDefined();
+    expect(all['quality/review']).toBeDefined();
+    expect(all['ai/agents']).toBeDefined();
+    expect(all['devops/deploy']).toBeDefined();
     expect(all['frontend/react']?.category).toBe('frontend');
     expect(all['frontend/react']?.skills.length).toBeGreaterThan(0);
   });
