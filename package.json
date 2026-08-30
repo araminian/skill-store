@@ -34,8 +34,16 @@
     "cursor",
     "codex"
   ],
-  "author": "",
+  "author": "Armin Aminian",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/araminian/skill-store.git"
+  },
+  "homepage": "https://github.com/araminian/skill-store#readme",
+  "bugs": {
+    "url": "https://github.com/araminian/skill-store/issues"
+  },
   "dependencies": {
     "@clack/prompts": "^1.2.0",
     "picocolors": "^1.1.1",
