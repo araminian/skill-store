@@ -7,9 +7,19 @@
     "skill-store": "./bin/cli.mjs",
     "skstore": "./bin/cli.mjs"
   },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "node --no-warnings --loader ts-node/esm src/cli.ts",
     "build": "tsc",
+    "prepublishOnly": "pnpm build",
     "test": "vitest run",
     "test:watch": "vitest",
     "type-check": "tsc --noEmit"
