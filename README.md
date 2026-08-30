@@ -33,12 +33,17 @@ Conversely, downloading skills manually into every individual project creates du
 ## Installation
 
 ```bash
-# Clone and build locally
-git clone https://github.com/your-username/skill-store.git
+# Global install via npm / pnpm / bun
+npm install -g @araminian/skill-store
+
+# Or run directly with npx / pnpm dlx / bunx
+npx @araminian/skill-store --help
+
+# Or clone and build locally
+git clone https://github.com/araminian/skill-store.git
 cd skill-store
 pnpm install
 pnpm build
-npm link
 ```
 
 ---
