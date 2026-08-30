@@ -1,9 +1,11 @@
 import { readFile, writeFile, mkdir, stat } from 'fs/promises';
 import { existsSync } from 'fs';
-import { join, isAbsolute } from 'path';
+import { join } from 'path';
 import type { StackDefinition, RegistrySourceConfig } from '../types.js';
 import { getActiveRegistrySources } from '../config.js';
 import { BUILTIN_STACKS } from './builtin-stacks.js';
+import { validateRegistryCatalog } from './schema-validator.js';
+import { colors } from '../ui/colors.js';
 
 export const COMMUNITY_CACHE_FILE = 'community-stacks.json';
 export const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -21,34 +23,44 @@ export function getCommunityCachePath(storeDir: string): string {
 
 export async function fetchRegistryContent(urlOrPath: string): Promise<StackDefinition[]> {
   const trimmed = urlOrPath.trim();
+  let parsedRaw: unknown;
 
   // If local file path
   if (trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('file://') || existsSync(trimmed)) {
     const filePath = trimmed.startsWith('file://') ? trimmed.replace('file://', '') : trimmed;
     const content = await readFile(filePath, 'utf-8');
-    const parsed = JSON.parse(content);
-    return Array.isArray(parsed.stacks) ? parsed.stacks : [];
+    parsedRaw = JSON.parse(content);
+  } else {
+    // Remote HTTP(S) URL
+    const res = await fetch(trimmed, {
+      headers: {
+        'User-Agent': 'skill-store-cli',
+        Accept: 'application/json',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+
+    parsedRaw = await res.json();
   }
 
-  // Remote HTTP(S) URL
-  const res = await fetch(trimmed, {
-    headers: {
-      'User-Agent': 'skill-store-cli',
-      Accept: 'application/json',
-    },
-    signal: AbortSignal.timeout(10000),
-  });
+  // Defensive validation against schema
+  const validation = validateRegistryCatalog(parsedRaw);
 
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+  if (validation.skippedCount > 0) {
+    for (const err of validation.errors) {
+      console.log(colors.warning(`  ⚠ Registry warning: ${err}`));
+    }
   }
 
-  const parsed = (await res.json()) as any;
-  if (!parsed || !Array.isArray(parsed.stacks)) {
-    throw new Error('Invalid registry format: missing "stacks" array');
+  if (validation.validatedStacks.length === 0 && validation.errors.length > 0) {
+    throw new Error(`Registry at "${urlOrPath}" has no valid stacks: ${validation.errors.join('; ')}`);
   }
 
-  return parsed.stacks as StackDefinition[];
+  return validation.validatedStacks;
 }
 
 export async function isCacheFresh(storeDir: string): Promise<boolean> {
