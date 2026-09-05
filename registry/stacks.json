@@ -142,6 +142,12 @@
       "tags": ["workflow", "wayfinder", "planning", "mattpocock", "domain-modeling", "grilling", "prototype", "research"],
       "skills": [
         {
+          "name": "wayfinder",
+          "source": "mattpocock/skills",
+          "subpath": "skills/wayfinder",
+          "reason": "Disciplined engineering roadmap and step-by-step guidance for feature development"
+        },
+        {
           "name": "domain-modeling",
           "source": "mattpocock/skills",
           "subpath": "skills/domain-modeling",
