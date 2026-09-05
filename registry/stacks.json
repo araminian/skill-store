@@ -135,6 +135,45 @@
       ]
     },
     {
+      "id": "workflow/wayfinder",
+      "name": "Matt Pocock Wayfinder",
+      "category": "workflow",
+      "description": "Disciplined engineering roadmap, domain modeling, design grilling, research, and rapid prototyping workflows from Matt Pocock",
+      "tags": ["workflow", "wayfinder", "planning", "mattpocock", "domain-modeling", "grilling", "prototype", "research"],
+      "skills": [
+        {
+          "name": "domain-modeling",
+          "source": "mattpocock/skills",
+          "subpath": "skills/domain-modeling",
+          "reason": "Refine domain terminology, establish ubiquitous language, and record architectural decisions"
+        },
+        {
+          "name": "grilling",
+          "source": "mattpocock/skills",
+          "subpath": "skills/grilling",
+          "reason": "Stress-test architecture, design trees, and decisions through iterative probing questions"
+        },
+        {
+          "name": "prototype",
+          "source": "mattpocock/skills",
+          "subpath": "skills/prototype",
+          "reason": "Build throwaway prototypes and UI explorations to validate technical assumptions"
+        },
+        {
+          "name": "research",
+          "source": "mattpocock/skills",
+          "subpath": "skills/research",
+          "reason": "Investigate technical questions with cited documentation and source code analysis"
+        },
+        {
+          "name": "setup-matt-pocock-skills",
+          "source": "mattpocock/skills",
+          "subpath": "skills/setup-matt-pocock-skills",
+          "reason": "Initialize repository documentation layout, issue tracker integration, and triage rules"
+        }
+      ]
+    },
+    {
       "id": "devops/deploy",
       "name": "Deployment & Git Guardrails",
       "category": "devops",
