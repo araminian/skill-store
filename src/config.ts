@@ -6,7 +6,7 @@ import { loadProjectManifest, findProjectRoot } from './project-manifest.js';
 
 export const CONFIG_FILE = 'config.json';
 export const DEFAULT_OFFICIAL_REGISTRY_URL =
-  'https://cdn.jsdelivr.net/gh/araminian/skill-store@main/registry/stacks.json';
+  'https://raw.githubusercontent.com/araminian/skill-store/main/registry/stacks.json';
 
 export function getDefaultConfig(): GlobalConfig {
   return {
@@ -37,9 +37,30 @@ export async function loadGlobalConfig(storeDir: string): Promise<GlobalConfig> 
   try {
     const raw = await readFile(configPath, 'utf-8');
     const parsed = JSON.parse(raw) as GlobalConfig;
+    let modified = false;
+
     if (!parsed.registries || !Array.isArray(parsed.registries)) {
       parsed.registries = getDefaultConfig().registries;
+      modified = true;
     }
+
+    // Auto-migrate legacy jsdelivr URL for the official registry to raw GitHub URL to avoid stale CDN caching
+    for (const reg of parsed.registries) {
+      if (reg.name === 'official' && reg.url.includes('cdn.jsdelivr.net/gh/araminian/skill-store')) {
+        reg.url = DEFAULT_OFFICIAL_REGISTRY_URL;
+        modified = true;
+      }
+    }
+
+    if (parsed.defaultRegistry?.includes('cdn.jsdelivr.net/gh/araminian/skill-store')) {
+      parsed.defaultRegistry = DEFAULT_OFFICIAL_REGISTRY_URL;
+      modified = true;
+    }
+
+    if (modified) {
+      await saveGlobalConfig(storeDir, parsed);
+    }
+
     return parsed;
   } catch {
     const def = getDefaultConfig();

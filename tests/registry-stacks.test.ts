@@ -170,4 +170,28 @@ describe('Hierarchical Registry & Stack Inheritance', () => {
     const updatedConfig = await loadGlobalConfig(storeDir);
     expect(updatedConfig.registries.some((r) => r.name === 'acme-tap')).toBe(false);
   });
+
+  it('automatically migrates legacy jsdelivr official registry URL to raw GitHub URL', async () => {
+    const legacyConfig = {
+      version: 1,
+      defaultRegistry: 'https://cdn.jsdelivr.net/gh/araminian/skill-store@main/registry/stacks.json',
+      registries: [
+        {
+          name: 'official',
+          url: 'https://cdn.jsdelivr.net/gh/araminian/skill-store@main/registry/stacks.json',
+          enabled: true,
+        },
+      ],
+    };
+    const configPath = join(storeDir, 'config.json');
+    await writeFile(configPath, JSON.stringify(legacyConfig, null, 2), 'utf-8');
+
+    const config = await loadGlobalConfig(storeDir);
+    expect(config.defaultRegistry).toBe(
+      'https://raw.githubusercontent.com/araminian/skill-store/main/registry/stacks.json'
+    );
+    expect(config.registries[0]?.url).toBe(
+      'https://raw.githubusercontent.com/araminian/skill-store/main/registry/stacks.json'
+    );
+  });
 });
