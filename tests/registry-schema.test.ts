@@ -107,4 +107,44 @@ describe('Registry Schema Validation (CI Gatekeeper)', () => {
     expect(res.validatedStacks).toHaveLength(1);
     expect(res.skippedCount).toBe(1);
   });
+
+  it('contains backend/cc-skills-golang-recommended with all 14 recommended skills from samber', async () => {
+    const stacksJsonPath = join(__dirname, '..', 'registry', 'stacks.json');
+    const content = await readFile(stacksJsonPath, 'utf-8');
+    const catalog = JSON.parse(content);
+    const result = validateRegistryCatalog(catalog);
+
+    const goStack = result.validatedStacks.find((s) => s.id === 'backend/cc-skills-golang-recommended');
+    expect(goStack).toBeDefined();
+    expect(goStack?.name).toBe('Go Recommended Practices (samber)');
+    expect(goStack?.category).toBe('backend');
+    expect(goStack?.skills).toHaveLength(14);
+
+    const expectedSkills = [
+      'golang-code-style',
+      'golang-data-structures',
+      'golang-database',
+      'golang-design-patterns',
+      'golang-documentation',
+      'golang-error-handling',
+      'golang-how-to',
+      'golang-modernize',
+      'golang-naming',
+      'golang-refactoring',
+      'golang-safety',
+      'golang-testing',
+      'golang-troubleshooting',
+      'golang-security',
+    ];
+
+    for (const skillName of expectedSkills) {
+      const skill = goStack?.skills.find((s) => (typeof s === 'string' ? s === skillName : s.name === skillName));
+      expect(skill).toBeDefined();
+      if (typeof skill === 'object') {
+        expect(skill?.source).toBe('samber/cc-skills-golang');
+        expect(skill?.subpath).toBe(`skills/${skillName}`);
+        expect(skill?.reason).toBeTruthy();
+      }
+    }
+  });
 });
