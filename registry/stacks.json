@@ -2,7 +2,7 @@
   "$schema": "./schema.json",
   "version": 1,
   "description": "Official community stacks catalog for skill-store",
-  "updatedAt": "2026-08-30T17:00:00Z",
+  "updatedAt": "2026-09-06T18:48:00Z",
   "stacks": [
     {
       "id": "frontend/react",
@@ -245,6 +245,99 @@
           "source": "mattpocock/skills",
           "subpath": "skills/git-guardrails-claude-code",
           "reason": "Prevents destructive git operations and accidental branch deletions"
+        }
+      ]
+    },
+    {
+      "id": "backend/cc-skills-golang-recommended",
+      "name": "Go Recommended Practices (samber)",
+      "category": "backend",
+      "description": "Recommended Go skills for code style, safety, error handling, testing, modernization, and security by samber",
+      "tags": ["go", "golang", "backend", "code-style", "testing", "security", "best-practices"],
+      "skills": [
+        {
+          "name": "golang-code-style",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-code-style",
+          "reason": "Standard Go code formatting, idiom, and style conventions"
+        },
+        {
+          "name": "golang-data-structures",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-data-structures",
+          "reason": "Idiomatic slice, map, and struct usage and memory optimization"
+        },
+        {
+          "name": "golang-database",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-database",
+          "reason": "Safe SQL queries, connection pooling, and database interaction patterns"
+        },
+        {
+          "name": "golang-design-patterns",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-design-patterns",
+          "reason": "Idiomatic Go design patterns, interfaces, and composability"
+        },
+        {
+          "name": "golang-documentation",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-documentation",
+          "reason": "Go doc comment standards, package documentation, and example tests"
+        },
+        {
+          "name": "golang-error-handling",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-error-handling",
+          "reason": "Idiomatic error wrapping, sentinel errors, and custom error types"
+        },
+        {
+          "name": "golang-how-to",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-how-to",
+          "reason": "Practical solutions to common Go programming tasks and recipes"
+        },
+        {
+          "name": "golang-modernize",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-modernize",
+          "reason": "Leveraging modern Go features and standard library improvements"
+        },
+        {
+          "name": "golang-naming",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-naming",
+          "reason": "Idiomatic Go package, variable, function, and interface naming rules"
+        },
+        {
+          "name": "golang-refactoring",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-refactoring",
+          "reason": "Safe refactoring strategies for Go codebases and clean interfaces"
+        },
+        {
+          "name": "golang-safety",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-safety",
+          "reason": "Concurrency safety, race condition avoidance, and pointer correctness"
+        },
+        {
+          "name": "golang-testing",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-testing",
+          "reason": "Unit testing, table-driven tests, benchmarking, and mock patterns"
+        },
+        {
+          "name": "golang-troubleshooting",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-troubleshooting",
+          "reason": "Profiling, stack trace debugging, and runtime leak investigation"
+        },
+        {
+          "name": "golang-security",
+          "source": "samber/cc-skills-golang",
+          "subpath": "skills/golang-security",
+          "reason": "Preventing injection vulnerabilities, safe crypto, and secure coding practices"
         }
       ]
     }
